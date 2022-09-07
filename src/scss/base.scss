@@ -1,0 +1,32 @@
+@import "utils/_vars";
+@import "utils/_mixins";
+@import "utils/_fonts";
+@import "utils/_media";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.d-none {
+  display: none;
+}
+
+body {
+  background-color: #FFDF8C;
+  color: $mainFontColor;
+  font-size: $mainFontSize;
+  font-weight: $mainFontWeight;
+  font-family: $mainFont;
+}
+
+.wrapper {
+  max-width: 100%;
+  width: 1340px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.03);
+  padding: 6px 34px;
+  margin: 46px auto;
+}

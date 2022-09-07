@@ -1,0 +1,25 @@
+header {
+    display: flex;
+    justify-content: space-between;
+    padding: 34px 65px;
+    border-bottom: 1px solid #F6F6F6;
+}
+  
+.logo {
+    display: flex;
+    justify-content: space-between;
+
+    .title {
+        margin-left: 14px;
+    }
+
+    h1 {
+        font-size: 24px;
+        text-transform: uppercase;
+    }
+
+    .desc {
+        font-weight: 400;
+        color: #7b7b7b
+    }
+}
