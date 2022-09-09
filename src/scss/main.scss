@@ -1,9 +1,9 @@
-@import "utils/_vars";
-@import "utils/_mixins";
-@import "utils/_fonts";
-@import "utils/_media";
-@import "base";
-@import "header";
+@import 'utils/_vars';
+@import 'utils/_mixins';
+@import 'utils/_fonts';
+@import 'utils/_media';
+@import 'base';
+@import 'header';
 
 .cart {
   display: flex;
@@ -15,7 +15,7 @@
   align-items: center;
 
   .amount {
-    border-right: 1px solid rgba(255, 255, 255, 0.25);;
+    border-right: 1px solid rgba(255, 255, 255, 0.25);
     padding-right: 13px;
   }
 
@@ -45,7 +45,7 @@ nav {
   display: flex;
   justify-content: space-between;
 
-  div {
+  li {
     border-radius: 30px;
     background-color: #f9f9f9;
     line-height: 19px;
@@ -60,7 +60,7 @@ nav {
 
   .active {
     background-color: #282828;
-    color:#ffffff;
+    color: #ffffff;
   }
 }
 
@@ -78,18 +78,18 @@ nav {
     display: flex;
     align-items: center;
 
-    span{
+    span {
       color: $mainColor;
       text-decoration-style: dashed;
       text-decoration-line: underline;
       text-decoration-color: $mainColor;
     }
-  }    
+  }
 }
 
-.filters{
+.filters {
   position: absolute;
-  
+
   top: 40px;
   right: 0;
   background-color: #ffffff;
@@ -110,7 +110,7 @@ nav {
       cursor: pointer;
       background-color: rgba($mainColor, 0.05);
       font-weight: 700;
-      color: $mainColor
+      color: $mainColor;
     }
   }
 }
@@ -121,7 +121,7 @@ section {
   }
 }
 
-.pizzas{
+.pizzas {
   display: flex;
   flex-wrap: wrap;
   margin-top: 35px;
@@ -129,7 +129,7 @@ section {
   justify-content: space-between;
 }
 
-.card{
+.card {
   display: flex;
   flex-direction: column;
   margin-bottom: 65px;
@@ -150,48 +150,44 @@ section {
   }
 
   .filtres {
-    background-color: #F3F3F3;
+    background-color: #f3f3f3;
     border-radius: 10px;
     font-size: 14px;
     color: #2c2c2c;
     padding: 7px;
     margin-bottom: 17px;
 
-    .dough, .size {
+    .dough,
+    .size {
       display: flex;
       justify-content: space-between;
       text-align: center;
-      
 
       .active {
-        background-color: #FFFFFF;
+        background-color: #ffffff;
         box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.04);
         border-radius: 5px;
       }
     }
 
     .dough p {
-      width: 50%;
       margin-bottom: 7px;
     }
 
-    .size p {
-      width: 33.333%;
-    }
-
     p {
+      width: 100%;
       padding: 7px 0;
       cursor: pointer;
     }
   }
-}  
+}
 
 .total {
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  .price{
+  .price {
     font-size: 22px;
   }
 

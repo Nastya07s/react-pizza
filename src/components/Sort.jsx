@@ -1,4 +1,4 @@
-import arrow from './../img/arrow.svg';
+import arrow from './../assets/img/arrow.svg';
 
 function Sort() {
   return (

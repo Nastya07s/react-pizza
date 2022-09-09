@@ -1,31 +1,45 @@
 import React from 'react';
 
-function PizzaBlock({ title, price, imgUrl }) {
-  const [count, setCount] = React.useState(0);
+function PizzaBlock({ title, price, imageUrl, types, sizes }) {
+  const [activeType, setActiveType] = React.useState(0);
+  const [activeSizeIndex, setActiveSizeIndex] = React.useState(0);
+
+  const typeNames = ['Thin', 'Traditional'];
 
   return (
     <div className="card">
-      <img src={imgUrl} alt="Cheeseburger pizza" />
+      <img src={imageUrl} alt="Cheeseburger pizza" />
       <p className="name">{title}</p>
       <div className="filtres">
         <div className="dough">
-          <p className="active">Thin</p>
-          <p>Traditional</p>
+          {types.map((typeId, i) => {
+            return (
+              <p className={activeType === i ? 'active' : ''} onClick={() => setActiveType(i)}>
+                {typeNames[typeId]}
+              </p>
+            );
+          })}
         </div>
         <div className="size">
-          <p className="active">26 sm</p>
-          <p>30 sm</p>
-          <p>40 sm</p>
+          {sizes.map((size, i) => {
+            return (
+              <p
+                className={activeSizeIndex === i ? 'active' : ''}
+                onClick={() => setActiveSizeIndex(i)}>
+                {size} sm
+              </p>
+            );
+          })}
         </div>
       </div>
       <div className="total">
         <p className="price">
           from $<span>{price}</span>
         </p>
-        <button className="add" onClick={() => setCount(count + 1)}>
+        <button className="add">
           <p>+</p>
           <p>Add</p>
-          <div className="counter">{count}</div>
+          <div className="counter">0</div>
         </button>
       </div>
     </div>

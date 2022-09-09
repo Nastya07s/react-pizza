@@ -5,7 +5,10 @@ import Categories from './components/Categories';
 import Sort from './components/Sort';
 import PizzaBlock from './components/PizzaBlock';
 
+import pizzas from './assets/pizzas.json';
+
 function App() {
+  console.log('pizzas: ', pizzas);
   return (
     <div className="wrapper">
       <Header />
@@ -21,10 +24,10 @@ function App() {
             </p>
           </div>
           <div className="pizzas">
-            <PizzaBlock title="Cheesburger" price="395" imgUrl="/img/pizza-burger.png" />
-            <PizzaBlock title="Cheese" price="450" imgUrl="/img/pizza-cheese.png" />
-            <PizzaBlock title="Asian shrimp" price="290" imgUrl="/img/pizza-shrimps.png" />
-            <PizzaBlock title="Cheese chicken" price="385" imgUrl="/img/pizza-chicken.png" />
+            {pizzas.map((pizza) => {
+              return <PizzaBlock {...pizza} />;
+            })}
+            {/* <PizzaBlock title="Cheesburger" price="395" imgUrl="./../assets/img/pizza-burger.png" />         /> */}
           </div>
         </section>
       </main>
