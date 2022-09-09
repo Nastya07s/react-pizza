@@ -4,16 +4,16 @@ import cart from './../img/cart.svg';
 function Header() {
   return (
     <header>
-      <div class="logo">
+      <div className="logo">
         <img src={logo} alt="Pizza logo" />
-        <div class="title">
+        <div className="title">
           <h1>React pizza</h1>
-          <span class="desc">The best pizza in the Universe</span>
+          <span className="desc">The best pizza in the Universe</span>
         </div>
       </div>
-      <div class="cart">
-        <div class="amount">456$</div>
-        <div class="count">
+      <div className="cart">
+        <div className="amount">456$</div>
+        <div className="count">
           <img src={cart} alt="Cart" />
           <span>3</span>
         </div>

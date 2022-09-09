@@ -1,12 +1,12 @@
 function Categories() {
   return (
-    <div class="types">
-      <div class="active">All</div>
-      <div class="">Meat</div>
-      <div class="">Vega</div>
-      <div class="">Grill</div>
-      <div class="">Spicy</div>
-      <div class="">Closed</div>
+    <div className="types">
+      <div className="active">All</div>
+      <div className="">Meat</div>
+      <div className="">Vega</div>
+      <div className="">Grill</div>
+      <div className="">Spicy</div>
+      <div className="">Closed</div>
     </div>
   );
 }
