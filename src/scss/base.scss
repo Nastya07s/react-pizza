@@ -1,7 +1,7 @@
-@import "utils/_vars";
-@import "utils/_mixins";
-@import "utils/_fonts";
-@import "utils/_media";
+@import 'utils/_vars';
+@import 'utils/_mixins';
+@import 'utils/_fonts';
+@import 'utils/_media';
 
 * {
   margin: 0;
@@ -13,8 +13,12 @@
   display: none;
 }
 
+.rotate {
+  transform: rotate(180deg);
+}
+
 body {
-  background-color: #FFDF8C;
+  background-color: #ffdf8c;
   color: $mainFontColor;
   font-size: $mainFontSize;
   font-weight: $mainFontWeight;

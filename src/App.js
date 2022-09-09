@@ -8,7 +8,6 @@ import PizzaBlock from './components/PizzaBlock';
 import pizzas from './assets/pizzas.json';
 
 function App() {
-  console.log('pizzas: ', pizzas);
   return (
     <div className="wrapper">
       <Header />
@@ -25,9 +24,8 @@ function App() {
           </div>
           <div className="pizzas">
             {pizzas.map((pizza) => {
-              return <PizzaBlock {...pizza} />;
+              return <PizzaBlock key={pizza.id} {...pizza} />;
             })}
-            {/* <PizzaBlock title="Cheesburger" price="395" imgUrl="./../assets/img/pizza-burger.png" />         /> */}
           </div>
         </section>
       </main>
