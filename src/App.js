@@ -5,9 +5,18 @@ import Categories from './components/Categories';
 import Sort from './components/Sort';
 import PizzaBlock from './components/PizzaBlock';
 
-import pizzas from './assets/pizzas.json';
+// import pizzas from './assets/pizzas.json';
+import React from 'react';
 
 function App() {
+  const [items, setItems] = React.useState([]);
+
+  React.useEffect(() => {
+    fetch(`${process.env.REACT_APP_HOST}/items`)
+      .then((res) => res.json())
+      .then((items) => setItems(items));
+  }, []);
+
   return (
     <div className="wrapper">
       <Header />
@@ -23,7 +32,7 @@ function App() {
             </p>
           </div>
           <div className="pizzas">
-            {pizzas.map((pizza) => {
+            {items.map((pizza) => {
               return <PizzaBlock key={pizza.id} {...pizza} />;
             })}
           </div>
