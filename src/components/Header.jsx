@@ -1,23 +1,25 @@
+import { Link } from 'react-router-dom';
+
 import logo from './../assets/img/logo.svg';
 import cart from './../assets/img/cart.svg';
 
 function Header() {
   return (
     <header>
-      <div className="logo">
+      <Link to="/" className="logo">
         <img src={logo} alt="Pizza logo" />
         <div className="title">
           <h1>React pizza</h1>
           <span className="desc">The best pizza in the Universe</span>
         </div>
-      </div>
-      <div className="cart">
+      </Link>
+      <Link to="cart" className="cart">
         <div className="amount">456$</div>
         <div className="count">
           <img src={cart} alt="Cart" />
           <span>3</span>
         </div>
-      </div>
+      </Link>
     </header>
   );
 }

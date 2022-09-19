@@ -13,6 +13,8 @@
   padding: 12px 23px;
   justify-content: space-between;
   align-items: center;
+  text-decoration: none;
+  width: 142px;
 
   .amount {
     border-right: 1px solid rgba(255, 255, 255, 0.25);
@@ -33,17 +35,37 @@
 
 main {
   padding: 40px 65px;
+
+  @media (max-width: 750px) {
+    padding: 40px 21px;
+  }
 }
 
 nav {
-  padding-bottom: 40px;
   display: flex;
   justify-content: space-between;
+  width: 100%;
+  margin-bottom: 60px;
+
+  @media (max-width: 960px) {
+    flex-direction: column;
+
+    .sort {
+      margin-top: 40px;
+      justify-content: center;
+    }
+
+    .filters {
+      top: 25px;
+    }
+  }
 }
 
 .types {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
 
   li {
     border-radius: 30px;
@@ -67,7 +89,6 @@ nav {
 .sort {
   display: flex;
   font-size: 14px;
-  position: relative;
 
   img {
     width: 10px;
@@ -77,6 +98,7 @@ nav {
   .text {
     display: flex;
     align-items: center;
+    position: relative;
 
     span {
       color: $mainColor;
@@ -99,7 +121,6 @@ nav {
   padding: 7px 0;
   font-weight: 400;
   letter-spacing: 0.5px;
-  // font-size: 10px;
 
   p {
     display: flex;
@@ -117,24 +138,32 @@ nav {
 }
 
 section {
+  width: 100%;
+
   .title {
-    font-size: 32px;
+    font-size: 40px;
   }
 }
 
 .pizzas {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  grid-column-gap: 27px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   margin-top: 35px;
-  width: 100%;
-  justify-content: space-between;
 }
 
 .card {
   display: flex;
   flex-direction: column;
   margin-bottom: 65px;
-  width: 250px;
+  width: 260px;
+
+  &-wrapper {
+    display: flex;
+    justify-content: center;
+  }
 
   img {
     margin: auto;
@@ -143,7 +172,7 @@ section {
   }
 
   .name {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 800;
     text-align: center;
     margin-top: 11px;

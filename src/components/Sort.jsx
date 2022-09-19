@@ -15,18 +15,18 @@ function Sort() {
         <p>
           Sort by <span onClick={() => setIsVisability(!isVisible)}>{sortBy}</span>
         </p>
+        {isVisible && (
+          <div className="filters">
+            {sortNames.map((name, i) => {
+              return (
+                <p key={i} onClick={() => setSortBy(name)}>
+                  {name}
+                </p>
+              );
+            })}
+          </div>
+        )}
       </div>
-      {isVisible && (
-        <div className="filters">
-          {sortNames.map((name, i) => {
-            return (
-              <p key={i} onClick={() => setSortBy(name)}>
-                {name}
-              </p>
-            );
-          })}
-        </div>
-      )}
     </div>
   );
 }
