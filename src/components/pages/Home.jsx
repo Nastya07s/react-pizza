@@ -9,21 +9,29 @@ function Main() {
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
+  const [sort, setSort] = React.useState({ name: 'polular first', field: 'rating', order: 'desc' });
+  const [categoryIndex, setCategoryIndex] = React.useState(0);
+
   React.useEffect(() => {
-    fetch(`${process.env.REACT_APP_HOST}/items`)
+    console.log(sort);
+    fetch(
+      `${process.env.REACT_APP_HOST}/items?${
+        categoryIndex > 0 ? `category=${categoryIndex}` : ''
+      }&sortBy=${sort.field}&order=${sort.order}`,
+    )
       .then((res) => res.json())
       .then((items) => {
         setItems(items);
         setIsLoading(false);
       });
     window.scrollTo(0, 0);
-  }, []);
+  }, [categoryIndex, sort]);
 
   return (
     <main>
       <nav>
-        <Categories />
-        <Sort />
+        <Categories value={categoryIndex} onClickCategory={(i) => setCategoryIndex(i)} />
+        <Sort value={sort} onClickSort={(i) => setSort(i)} />
       </nav>
       <section>
         <div className="title">
