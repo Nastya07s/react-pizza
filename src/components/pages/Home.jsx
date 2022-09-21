@@ -13,19 +13,20 @@ function Main({ searchValue }) {
   const [categoryIndex, setCategoryIndex] = React.useState(0);
 
   React.useEffect(() => {
-    console.log(sort);
+    const category = categoryIndex > 0 ? `category=${categoryIndex}` : '';
+    const search = searchValue ? `title=${searchValue}` : '';
+
     fetch(
-      `${process.env.REACT_APP_HOST}/items?${
-        categoryIndex > 0 ? `category=${categoryIndex}` : ''
-      }&sortBy=${sort.field}&order=${sort.order}`,
+      `${process.env.REACT_APP_HOST}/items?${category}&sortBy=${sort.field}&order=${sort.order}&${search}`,
     )
       .then((res) => res.json())
       .then((items) => {
         setItems(items);
         setIsLoading(false);
       });
+
     window.scrollTo(0, 0);
-  }, [categoryIndex, sort]);
+  }, [categoryIndex, sort, searchValue]);
 
   return (
     <main>
