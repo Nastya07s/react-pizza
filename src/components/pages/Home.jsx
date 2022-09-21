@@ -5,7 +5,7 @@ import Sort from '../Sort';
 import PizzaBlock from '../PizzaBlock';
 import Skeleton from '../PizzaBlock/Skeleton';
 
-function Main() {
+function Main({ searchValue }) {
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
@@ -42,9 +42,11 @@ function Main() {
         <div className="pizzas">
           {isLoading
             ? [...Array(8)].map((_, i) => <Skeleton key={i} />)
-            : items.map((pizza) => {
-                return <PizzaBlock key={pizza.id} {...pizza} />;
-              })}
+            : items
+                .filter((pizza) => pizza.title.includes(searchValue))
+                .map((pizza) => {
+                  return <PizzaBlock key={pizza.id} {...pizza} />;
+                })}
         </div>
       </section>
     </main>
