@@ -43,7 +43,7 @@ function Main({ searchValue }) {
           {isLoading
             ? [...Array(8)].map((_, i) => <Skeleton key={i} />)
             : items
-                .filter((pizza) => pizza.title.includes(searchValue))
+                .filter((pizza) => pizza.title.toLowerCase().includes(searchValue.toLowerCase()))
                 .map((pizza) => {
                   return <PizzaBlock key={pizza.id} {...pizza} />;
                 })}
