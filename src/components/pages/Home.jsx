@@ -6,7 +6,9 @@ import PizzaBlock from '../PizzaBlock';
 import Skeleton from '../PizzaBlock/Skeleton';
 import Pagination from '../Pagination';
 
-function Main({ searchValue }) {
+import { SearchContext } from '../../App';
+
+function Main() {
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
@@ -14,6 +16,8 @@ function Main({ searchValue }) {
   const [categoryIndex, setCategoryIndex] = React.useState(0);
   const [currentPage, setCurrentPage] = React.useState(0);
   const [count, setCount] = React.useState(0);
+
+  const { searchValue } = React.useContext(SearchContext);
 
   const limit = 4;
 
@@ -38,7 +42,6 @@ function Main({ searchValue }) {
     setCurrentPage(0);
   }, [count]);
 
-  console.log('count: ', count);
   const pizzas = items
     .filter((pizza) => pizza.title.toLowerCase().includes(searchValue.toLowerCase()))
     .map((pizza) => {

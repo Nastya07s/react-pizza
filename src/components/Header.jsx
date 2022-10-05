@@ -1,10 +1,15 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 import logo from './../assets/img/logo.svg';
 import cart from './../assets/img/cart.svg';
 import Search from './Search';
 
-function Header({ searchValue, setSearchValue }) {
+import { SearchContext } from '../App';
+
+function Header() {
+  const { searchValue, setSearchValue } = React.useContext(SearchContext);
+  
   return (
     <header>
       <Link to="/" className="logo">
