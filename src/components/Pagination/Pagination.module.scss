@@ -1,0 +1,29 @@
+.root {
+  display: flex;
+  list-style: none;
+
+  :global {
+    li {
+      margin-right: 10px;
+      padding: 0;
+    }
+
+    a {
+      border-radius: 10px;
+      border: 1px solid #eb5a1e;
+
+      padding: 5px 15px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #eb5a1e;
+        color: #ffffff;
+      }
+    }
+
+    .selected a {
+      background-color: #eb5a1e;
+      color: #ffffff;
+    }
+  }
+}

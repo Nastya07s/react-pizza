@@ -4,6 +4,7 @@ import Categories from '../Categories';
 import Sort from '../Sort';
 import PizzaBlock from '../PizzaBlock';
 import Skeleton from '../PizzaBlock/Skeleton';
+import Pagination from '../Pagination';
 
 function Main({ searchValue }) {
   const [items, setItems] = React.useState([]);
@@ -11,22 +12,38 @@ function Main({ searchValue }) {
 
   const [sort, setSort] = React.useState({ name: 'polular first', field: 'rating', order: 'desc' });
   const [categoryIndex, setCategoryIndex] = React.useState(0);
+  const [currentPage, setCurrentPage] = React.useState(0);
+  const [count, setCount] = React.useState(0);
+
+  const limit = 4;
 
   React.useEffect(() => {
     const category = categoryIndex > 0 ? `category=${categoryIndex}` : '';
     const search = searchValue ? `title=${searchValue}` : '';
 
     fetch(
-      `${process.env.REACT_APP_HOST}/items?${category}&sortBy=${sort.field}&order=${sort.order}&${search}`,
+      `${process.env.REACT_APP_HOST}/items?limit=${limit}&page=${currentPage}&${category}&sortBy=${sort.field}&order=${sort.order}&${search}`,
     )
       .then((res) => res.json())
-      .then((items) => {
+      .then(({ items, count }) => {
         setItems(items);
+        setCount(count);
         setIsLoading(false);
       });
 
     window.scrollTo(0, 0);
-  }, [categoryIndex, sort, searchValue]);
+  }, [categoryIndex, sort, searchValue, currentPage]);
+
+  React.useEffect(() => {
+    setCurrentPage(0);
+  }, [count]);
+
+  console.log('count: ', count);
+  const pizzas = items
+    .filter((pizza) => pizza.title.toLowerCase().includes(searchValue.toLowerCase()))
+    .map((pizza) => {
+      return <PizzaBlock key={pizza.id} {...pizza} />;
+    });
 
   return (
     <main>
@@ -41,15 +58,14 @@ function Main({ searchValue }) {
           </p>
         </div>
         <div className="pizzas">
-          {isLoading
-            ? [...Array(8)].map((_, i) => <Skeleton key={i} />)
-            : items
-                .filter((pizza) => pizza.title.toLowerCase().includes(searchValue.toLowerCase()))
-                .map((pizza) => {
-                  return <PizzaBlock key={pizza.id} {...pizza} />;
-                })}
+          {isLoading ? [...Array(4)].map((_, i) => <Skeleton key={i} />) : pizzas}
         </div>
       </section>
+      <Pagination
+        count={count}
+        setCurrentPage={setCurrentPage}
+        limit={limit}
+        currentPage={currentPage}></Pagination>
     </main>
   );
 }
