@@ -112,7 +112,6 @@ nav {
 
 .filters {
   position: absolute;
-
   top: 40px;
   right: 0;
   background-color: #ffffff;
@@ -121,6 +120,7 @@ nav {
   padding: 7px 0;
   font-weight: 400;
   letter-spacing: 0.5px;
+  z-index: 2;
 
   p {
     display: flex;

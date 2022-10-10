@@ -1,4 +1,6 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+// import { changeCategory } from './../../store/slices/filterSlice';
 
 import Categories from '../Categories';
 import Sort from '../Sort';
@@ -11,18 +13,16 @@ import { SearchContext } from '../../App';
 function Main() {
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-
-  const [sort, setSort] = React.useState({ name: 'polular first', field: 'rating', order: 'desc' });
-  const [categoryIndex, setCategoryIndex] = React.useState(0);
   const [currentPage, setCurrentPage] = React.useState(0);
   const [count, setCount] = React.useState(0);
 
   const { searchValue } = React.useContext(SearchContext);
+  const { activeCategoryId, sort } = useSelector((state) => state.filter);
 
   const limit = 4;
 
   React.useEffect(() => {
-    const category = categoryIndex > 0 ? `category=${categoryIndex}` : '';
+    const category = activeCategoryId > 0 ? `category=${activeCategoryId}` : '';
     const search = searchValue ? `title=${searchValue}` : '';
 
     fetch(
@@ -36,7 +36,7 @@ function Main() {
       });
 
     window.scrollTo(0, 0);
-  }, [categoryIndex, sort, searchValue, currentPage]);
+  }, [activeCategoryId, sort, searchValue, currentPage]);
 
   React.useEffect(() => {
     setCurrentPage(0);
@@ -51,8 +51,8 @@ function Main() {
   return (
     <main>
       <nav>
-        <Categories value={categoryIndex} onClickCategory={(i) => setCategoryIndex(i)} />
-        <Sort value={sort} onClickSort={(i) => setSort(i)} />
+        <Categories />
+        <Sort />
       </nav>
       <section>
         <div className="title">
