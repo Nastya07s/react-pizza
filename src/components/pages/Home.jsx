@@ -1,12 +1,12 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-// import { changeCategory } from './../../store/slices/filterSlice';
+import axios from 'axios';
 
 import Categories from '../Categories';
-import Sort from '../Sort';
+import Pagination from '../Pagination';
 import PizzaBlock from '../PizzaBlock';
 import Skeleton from '../PizzaBlock/Skeleton';
-import Pagination from '../Pagination';
+import Sort from '../Sort';
 
 import { SearchContext } from '../../App';
 
@@ -25,13 +25,23 @@ function Main() {
     const category = activeCategoryId > 0 ? `category=${activeCategoryId}` : '';
     const search = searchValue ? `title=${searchValue}` : '';
 
-    fetch(
-      `${process.env.REACT_APP_HOST}/items?limit=${limit}&page=${currentPage}&${category}&sortBy=${sort.field}&order=${sort.order}&${search}`,
-    )
-      .then((res) => res.json())
-      .then(({ items, count }) => {
-        setItems(items);
-        setCount(count);
+    // fetch(
+    //   `${process.env.REACT_APP_HOST}/items?limit=${limit}&page=${currentPage}&${category}&sortBy=${sort.field}&order=${sort.order}&${search}`,
+    // )
+    //   .then((res) => res.json())
+    //   .then(({ items, count }) => {
+    //     setItems(items);
+    //     setCount(count);
+    //     setIsLoading(false);
+    //   });
+
+    axios
+      .get(
+        `${process.env.REACT_APP_HOST}/items?limit=${limit}&page=${currentPage}&${category}&sortBy=${sort.field}&order=${sort.order}&${search}`,
+      )
+      .then(({ data }) => {
+        setItems(data.items);
+        setCount(data.count);
         setIsLoading(false);
       });
 
