@@ -1,8 +1,33 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { debounce } from '../../utils/utils';
+import { setSearchValue } from './../../redux/slices/filterSlice';
+
 import styles from './Search.module.scss';
 
-const Search = ({ searchValue, setSearchValue }) => {
+const Search = () => {
   const inputRef = React.useRef();
+
+  const searchValue = useSelector((state) => state.filter.searchValue);
+  const dispatch = useDispatch();
+
+  const [value, setValue] = React.useState('');
+
+  const changeSearchValue = React.useMemo(
+    () =>
+      debounce((value) => {
+        dispatch(setSearchValue(value));
+      }, 1000),
+    [dispatch],
+  );
+
+  const onChangeInput = (event) => {
+    const value = event.target.value;
+
+    setValue(value);
+    changeSearchValue(value);
+  };
 
   const onClickClear = () => {
     setSearchValue('');
@@ -13,8 +38,8 @@ const Search = ({ searchValue, setSearchValue }) => {
     <div>
       <input
         ref={inputRef}
-        value={searchValue}
-        onChange={(event) => setSearchValue(event.target.value)}
+        value={value}
+        onChange={onChangeInput}
         className={styles.root}
         type="text"
         placeholder="Search"

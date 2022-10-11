@@ -8,20 +8,18 @@ import PizzaBlock from '../PizzaBlock';
 import Skeleton from '../PizzaBlock/Skeleton';
 import Sort from '../Sort';
 
-import { SearchContext } from '../../App';
-
 function Main() {
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [currentPage, setCurrentPage] = React.useState(0);
   const [count, setCount] = React.useState(0);
 
-  const { searchValue } = React.useContext(SearchContext);
-  const { activeCategoryId, sort } = useSelector((state) => state.filter);
+  const { activeCategoryId, sort, searchValue } = useSelector((state) => state.filter);
 
   const limit = 4;
 
   React.useEffect(() => {
+    setIsLoading(true);
     const category = activeCategoryId > 0 ? `category=${activeCategoryId}` : '';
     const search = searchValue ? `title=${searchValue}` : '';
 
