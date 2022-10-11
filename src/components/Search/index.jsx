@@ -2,9 +2,17 @@ import React from 'react';
 import styles from './Search.module.scss';
 
 const Search = ({ searchValue, setSearchValue }) => {
+  const inputRef = React.useRef();
+
+  const onClickClear = () => {
+    setSearchValue('');
+    inputRef.current.focus();
+  };
+
   return (
     <div>
       <input
+        ref={inputRef}
         value={searchValue}
         onChange={(event) => setSearchValue(event.target.value)}
         className={styles.root}
@@ -20,7 +28,7 @@ const Search = ({ searchValue, setSearchValue }) => {
       {searchValue ? (
         <svg
           className={styles.clearIcon}
-          onClick={() => setSearchValue('')}
+          onClick={onClickClear}
           data-name="Capa 1"
           id="Capa_1"
           viewBox="0 0 20 19.84"

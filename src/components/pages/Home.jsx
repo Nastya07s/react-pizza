@@ -25,16 +25,6 @@ function Main() {
     const category = activeCategoryId > 0 ? `category=${activeCategoryId}` : '';
     const search = searchValue ? `title=${searchValue}` : '';
 
-    // fetch(
-    //   `${process.env.REACT_APP_HOST}/items?limit=${limit}&page=${currentPage}&${category}&sortBy=${sort.field}&order=${sort.order}&${search}`,
-    // )
-    //   .then((res) => res.json())
-    //   .then(({ items, count }) => {
-    //     setItems(items);
-    //     setCount(count);
-    //     setIsLoading(false);
-    //   });
-
     axios
       .get(
         `${process.env.REACT_APP_HOST}/items?limit=${limit}&page=${currentPage}&${category}&sortBy=${sort.field}&order=${sort.order}&${search}`,
