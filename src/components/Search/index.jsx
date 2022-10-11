@@ -30,7 +30,9 @@ const Search = () => {
   };
 
   const onClickClear = () => {
-    setSearchValue('');
+    dispatch(setSearchValue(''));
+    setValue('');
+
     inputRef.current.focus();
   };
 
