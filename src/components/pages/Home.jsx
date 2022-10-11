@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 
 import Categories from '../Categories';
@@ -8,13 +8,16 @@ import PizzaBlock from '../PizzaBlock';
 import Skeleton from '../PizzaBlock/Skeleton';
 import Sort from '../Sort';
 
+import { setCurrentPage } from './../../redux/slices/filterSlice';
+
 function Main() {
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  const [currentPage, setCurrentPage] = React.useState(0);
+  // const [currentPage, setCurrentPage] = React.useState(0);
   const [count, setCount] = React.useState(0);
 
-  const { activeCategoryId, sort, searchValue } = useSelector((state) => state.filter);
+  const { activeCategoryId, sort, searchValue, currentPage } = useSelector((state) => state.filter);
+  const dispatch = useDispatch();
 
   const limit = 4;
 
@@ -37,8 +40,8 @@ function Main() {
   }, [activeCategoryId, sort, searchValue, currentPage]);
 
   React.useEffect(() => {
-    setCurrentPage(0);
-  }, [count]);
+    dispatch(setCurrentPage(0));
+  }, [dispatch, count]);
 
   const pizzas = items
     .filter((pizza) => pizza.title.toLowerCase().includes(searchValue.toLowerCase()))
@@ -62,11 +65,7 @@ function Main() {
           {isLoading ? [...Array(4)].map((_, i) => <Skeleton key={i} />) : pizzas}
         </div>
       </section>
-      <Pagination
-        count={count}
-        setCurrentPage={setCurrentPage}
-        limit={limit}
-        currentPage={currentPage}></Pagination>
+      <Pagination count={count} limit={limit}></Pagination>
     </main>
   );
 }

@@ -4,6 +4,7 @@ const initialState = {
   activeCategoryId: 0,
   sort: { name: 'polular first', field: 'rating', order: 'desc' },
   searchValue: '',
+  currentPage: 0
 };
 
 export const filterSlice = createSlice({
@@ -19,9 +20,12 @@ export const filterSlice = createSlice({
     setSearchValue: (state, action) => {
       state.searchValue = action.payload;
     },
+    setCurrentPage: (state, action) => {
+      state.currentPage = action.payload;
+    }
   },
 });
 
-export const { setActiveCategoryId, setSort, setSearchValue } = filterSlice.actions;
+export const { setActiveCategoryId, setSort, setSearchValue, setCurrentPage } = filterSlice.actions;
 
 export default filterSlice.reducer;
