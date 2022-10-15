@@ -2,9 +2,10 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   activeCategoryId: 0,
-  sort: { name: 'polular first', field: 'rating', order: 'desc' },
+  sort: { field: 'rating', order: 'desc' },
   searchValue: '',
-  currentPage: 0
+  currentPage: 0,
+  limit: 4,
 };
 
 export const filterSlice = createSlice({
@@ -22,10 +23,19 @@ export const filterSlice = createSlice({
     },
     setCurrentPage: (state, action) => {
       state.currentPage = action.payload;
-    }
+    },
+    setFilters: (state, action) => {
+      const { category, sortBy, order, title, page } = action.payload;
+
+      state.activeCategoryId = Number(category);
+      state.sort = { field: sortBy, order };
+      state.searchValue = title;
+      state.currentPage = Number(page);
+    },
   },
 });
 
-export const { setActiveCategoryId, setSort, setSearchValue, setCurrentPage } = filterSlice.actions;
+export const { setActiveCategoryId, setSort, setSearchValue, setCurrentPage, setFilters } =
+  filterSlice.actions;
 
 export default filterSlice.reducer;

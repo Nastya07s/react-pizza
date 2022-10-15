@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 
 import Categories from '../Categories';
@@ -8,36 +9,64 @@ import PizzaBlock from '../PizzaBlock';
 import Skeleton from '../PizzaBlock/Skeleton';
 import Sort from '../Sort';
 
-import { setCurrentPage } from './../../redux/slices/filterSlice';
+import { setCurrentPage, setFilters } from './../../redux/slices/filterSlice';
 
 function Main() {
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  // const [currentPage, setCurrentPage] = React.useState(0);
   const [count, setCount] = React.useState(0);
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const { activeCategoryId, sort, searchValue, currentPage } = useSelector((state) => state.filter);
+  const isMounted = React.useRef(false);
+
+  const { activeCategoryId, sort, searchValue, currentPage, limit } = useSelector(
+    (state) => state.filter,
+  );
   const dispatch = useDispatch();
 
-  const limit = 4;
+  const fetchPizzas = React.useCallback(() => {
+    const preparedSearchParams = searchParams.toString().replace(/(&category=0)|(&title=$)/g, '');
+
+    axios.get(`${process.env.REACT_APP_HOST}/items?${preparedSearchParams}`).then(({ data }) => {
+      setItems(data.items);
+      setCount(data.count);
+      setIsLoading(false);
+    });
+  }, [searchParams]);
+
+  React.useEffect(() => {
+    const objectSearchParams = Object.fromEntries([...searchParams]);
+
+    setFilters(objectSearchParams);
+  }, [searchParams]);
+
+  React.useEffect(() => {
+    if (isMounted.current) {
+      console.log('activeCategoryId: ', activeCategoryId);
+      const params = {
+        limit,
+        page: currentPage,
+        category: activeCategoryId,
+        sortBy: sort.field,
+        order: sort.order,
+        title: searchValue,
+      };
+
+      setSearchParams(params);
+    }
+
+    isMounted.current = true;
+  }, [setSearchParams, searchParams, activeCategoryId, sort, searchValue, currentPage, limit]);
 
   React.useEffect(() => {
     setIsLoading(true);
-    const category = activeCategoryId > 0 ? `category=${activeCategoryId}` : '';
-    const search = searchValue ? `title=${searchValue}` : '';
 
-    axios
-      .get(
-        `${process.env.REACT_APP_HOST}/items?limit=${limit}&page=${currentPage}&${category}&sortBy=${sort.field}&order=${sort.order}&${search}`,
-      )
-      .then(({ data }) => {
-        setItems(data.items);
-        setCount(data.count);
-        setIsLoading(false);
-      });
+    if (searchParams.get('sortBy')) {
+      fetchPizzas();
+    }
 
     window.scrollTo(0, 0);
-  }, [activeCategoryId, sort, searchValue, currentPage]);
+  }, [fetchPizzas, searchParams]);
 
   React.useEffect(() => {
     dispatch(setCurrentPage(0));

@@ -18,12 +18,14 @@ function Sort() {
   const sort = useSelector((state) => state.filter.sort);
   const dispatch = useDispatch();
 
+  const findSortName = (currentSort) => sortObjects.find((obj) => obj.field === currentSort.field);
+
   return (
     <div className="sort">
       <img src={arrow} alt="Arrow up" className={isVisible ? '' : 'rotate'} />
       <div className="text">
         <p>
-          Sort by <span onClick={() => setIsVisability(!isVisible)}>{sort.name}</span>
+          Sort by <span onClick={() => setIsVisability(!isVisible)}>{findSortName(sort).name}</span>
         </p>
         {isVisible && (
           <div className="filters">
