@@ -24,32 +24,28 @@ function Main() {
   );
   const dispatch = useDispatch();
 
+  const DEFULT_SEARCH_PARAMS = `limit=${limit}&page=${currentPage}`;
+
   const fetchPizzas = React.useCallback(() => {
-    const preparedSearchParams = searchParams.toString().replace(/(&category=0)|(&title=$)/g, '');
+    const preparedSearchParams =
+      searchParams.toString().replace(/(&category=0)|(&title=$)/g, '') || DEFULT_SEARCH_PARAMS;
 
     axios.get(`${process.env.REACT_APP_HOST}/items?${preparedSearchParams}`).then(({ data }) => {
       setItems(data.items);
       setCount(data.count);
       setIsLoading(false);
     });
-  }, [searchParams]);
-
-  React.useEffect(() => {
-    const objectSearchParams = Object.fromEntries([...searchParams]);
-
-    setFilters(objectSearchParams);
-  }, [searchParams]);
+  }, [searchParams, DEFULT_SEARCH_PARAMS]);
 
   React.useEffect(() => {
     if (isMounted.current) {
-      console.log('activeCategoryId: ', activeCategoryId);
       const params = {
         limit,
         page: currentPage,
         category: activeCategoryId,
         sortBy: sort.field,
         order: sort.order,
-        title: searchValue,
+        title: searchValue || '',
       };
 
       setSearchParams(params);
@@ -59,11 +55,19 @@ function Main() {
   }, [setSearchParams, searchParams, activeCategoryId, sort, searchValue, currentPage, limit]);
 
   React.useEffect(() => {
+    if (searchParams.has('sortBy')) {
+      const objectSearchParams = Object.fromEntries([...searchParams]);
+
+      objectSearchParams.title = objectSearchParams.title || '';
+
+      dispatch(setFilters(objectSearchParams));
+    }
+  }, [dispatch, searchParams, activeCategoryId]);
+
+  React.useEffect(() => {
     setIsLoading(true);
 
-    if (searchParams.get('sortBy')) {
-      fetchPizzas();
-    }
+    fetchPizzas();
 
     window.scrollTo(0, 0);
   }, [fetchPizzas, searchParams]);
