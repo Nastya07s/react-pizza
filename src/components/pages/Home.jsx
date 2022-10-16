@@ -62,7 +62,7 @@ function Main() {
 
       dispatch(setFilters(objectSearchParams));
     }
-  }, [dispatch, searchParams, activeCategoryId]);
+  }, [dispatch, searchParams]);
 
   React.useEffect(() => {
     setIsLoading(true);
@@ -91,7 +91,7 @@ function Main() {
       <section>
         <div className="title">
           <p>
-            <span>Все</span> пиццы
+            <span>All</span> pizzas
           </p>
         </div>
         <div className="pizzas">
