@@ -14,14 +14,27 @@ const sortObjects = [
 
 function Sort() {
   const [isVisible, setIsVisability] = React.useState(false);
+  const sortRef = React.useRef();
 
   const sort = useSelector((state) => state.filter.sort);
   const dispatch = useDispatch();
 
   const findSortName = (currentSort) => sortObjects.find((obj) => obj.field === currentSort.field);
 
+  React.useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.path.includes(sortRef.current)) {
+        setIsVisability(false);
+      }
+    };
+
+    document.body.addEventListener('click', handleClickOutside);
+
+    return () => document.body.removeEventListener('click', handleClickOutside);
+  }, []);
+
   return (
-    <div className="sort">
+    <div ref={sortRef} className="sort">
       <img src={arrow} alt="Arrow up" className={isVisible ? '' : 'rotate'} />
       <div className="text">
         <p>
