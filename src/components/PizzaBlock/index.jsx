@@ -1,10 +1,24 @@
 import React from 'react';
 
-function PizzaBlock({ title, price, imageUrl, types, sizes }) {
+import { useDispatch, useSelector } from 'react-redux';
+
+import { addItem } from './../../redux/slices/cartSlice';
+
+function PizzaBlock(pizzaItem) {
+  const dispatch = useDispatch();
+
+  const { id, title, price, imageUrl, types, sizes } = pizzaItem;
+
   const [activeType, setActiveType] = React.useState(0);
   const [activeSizeIndex, setActiveSizeIndex] = React.useState(0);
 
-  const typeNames = ['Thin', 'Traditional'];
+  const { items } = useSelector((state) => state.cart);
+  const { typeNames } = useSelector((state) => state.constants);
+
+  const count =
+    items.find(
+      (item) => item.id === id && item.type === activeType && item.size === activeSizeIndex,
+    )?.count ?? 0;
 
   return (
     <div className="card-wrapper">
@@ -41,10 +55,14 @@ function PizzaBlock({ title, price, imageUrl, types, sizes }) {
           <p className="price">
             from $<span>{price}</span>
           </p>
-          <button className="add">
+          <button
+            onClick={() =>
+              dispatch(addItem({ ...pizzaItem, type: activeType, size: activeSizeIndex }))
+            }
+            className="add">
             <p>+</p>
             <p>Add</p>
-            <div className="counter">0</div>
+            <div className="counter">{count.toString().length > 2 ? '+99' : count}</div>
           </button>
         </div>
       </div>

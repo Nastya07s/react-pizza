@@ -1,8 +1,25 @@
 import { Link } from 'react-router-dom';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { removeAll } from '../../redux/slices/cartSlice';
+
+import Product from '../Product';
+import CartEmpty from '../CartEmpty';
+
 import './../../scss/cart.scss';
 
 function Cart({ imageUrl, title, dough, size, price }) {
+  const dispatch = useDispatch();
+  const { items, totalPrice } = useSelector((state) => state.cart);
+
+  if (items.length === 0) {
+    return (
+      <main className="empty-cart">
+        <CartEmpty></CartEmpty>
+      </main>
+    );
+  }
+
   return (
     <main>
       <div className="fixed row">
@@ -34,7 +51,7 @@ function Cart({ imageUrl, title, dough, size, price }) {
           </svg>
           <p>Cart</p>
         </div>
-        <div className="clean">
+        <div onClick={() => dispatch(removeAll())} className="clean">
           <svg
             width="20"
             height="20"
@@ -69,68 +86,15 @@ function Cart({ imageUrl, title, dough, size, price }) {
           <p>Clean cart</p>
         </div>
       </div>
-      <div className="product row">
-        <div className="info">
-          <img src={imageUrl} alt={title} />
-          <div className="text">
-            <p className="title">{title}</p>
-            <p className="desc">
-              {dough} dough, {size} sm
-            </p>
-          </div>
-        </div>
-        <div className="counter">
-          <div className="decrease button">-</div>
-          <p className="count">2</p>
-          <div className="increase button">+</div>
-        </div>
-        <p className="price">${price}</p>
-        <div className="">
-          <div className="remove button">+</div>
-        </div>
-      </div>
-      <div className="product row">
-        <div className="info">
-          <img src="/assets/img/pizza-cheese.png" alt="Cheese Checken pizza" />
-          <div className="text">
-            <p className="title">Cheese Checken</p>
-            <p className="desc">Thin dough, 25 sm</p>
-          </div>
-        </div>
-        <div className="counter">
-          <div className="decrease button">-</div>
-          <p className="count">2</p>
-          <div className="increase button">+</div>
-        </div>
-        <p className="price">$250</p>
-        <div className="">
-          <div className="remove button">+</div>
-        </div>
-      </div>
-      <div className="product row">
-        <div className="info">
-          <img src="/assets/img/pizza-cheese.png" alt="Cheese Checken pizza" />
-          <div className="text">
-            <p className="title">Cheese Checkenggggggggggggggggggggggggg</p>
-            <p className="desc">Thin dough, 25 sm</p>
-          </div>
-        </div>
-        <div className="counter">
-          <div className="decrease button">-</div>
-          <p className="count">2</p>
-          <div className="increase button">+</div>
-        </div>
-        <p className="price">$25055555</p>
-        <div className="">
-          <div className="remove button">+</div>
-        </div>
-      </div>
+      {items.map((item) => (
+        <Product key={item.id + item.size + item.type} {...item}></Product>
+      ))}
       <div className="row total">
         <p className="amount">
-          Total pizzas: <span>3 pcs.</span>
+          Total pizzas: <span>{items.reduce((acc, item) => acc + item.count, 0)} pcs.</span>
         </p>
         <p className="total-price">
-          Order price: <span>$900</span>
+          Order price: <span>${totalPrice.toFixed(2)}</span>
         </p>
       </div>
       <div className="row actions">
