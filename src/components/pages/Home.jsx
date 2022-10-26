@@ -1,7 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
-import axios from 'axios';
 
 import Categories from '../Categories';
 import Pagination from '../Pagination';
@@ -10,15 +9,13 @@ import Skeleton from '../PizzaBlock/Skeleton';
 import Sort from '../Sort';
 
 import { setCurrentPage, setFilters } from './../../redux/slices/filterSlice';
+import { fetchPizzas } from './../../redux/slices/pizzaSlice';
 
 function Main() {
-  const [items, setItems] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(true);
-  const [count, setCount] = React.useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
-
   const isMounted = React.useRef(false);
 
+  const { items, count, fetchStatus } = useSelector((state) => state.pizza);
   const { activeCategoryId, sort, searchValue, currentPage, limit } = useSelector(
     (state) => state.filter,
   );
@@ -26,16 +23,11 @@ function Main() {
 
   const DEFULT_SEARCH_PARAMS = `limit=${limit}&page=${currentPage}`;
 
-  const fetchPizzas = React.useCallback(() => {
+  const getPizzas = React.useCallback(async () => {
     const preparedSearchParams =
       searchParams.toString().replace(/(&category=0)|(&title=$)/g, '') || DEFULT_SEARCH_PARAMS;
-
-    axios.get(`${process.env.REACT_APP_HOST}/items?${preparedSearchParams}`).then(({ data }) => {
-      setItems(data.items);
-      setCount(data.count);
-      setIsLoading(false);
-    });
-  }, [searchParams, DEFULT_SEARCH_PARAMS]);
+    dispatch(fetchPizzas(preparedSearchParams));
+  }, [dispatch, searchParams, DEFULT_SEARCH_PARAMS]);
 
   React.useEffect(() => {
     if (isMounted.current) {
@@ -65,12 +57,10 @@ function Main() {
   }, [dispatch, searchParams]);
 
   React.useEffect(() => {
-    setIsLoading(true);
-
-    fetchPizzas();
+    getPizzas();
 
     window.scrollTo(0, 0);
-  }, [fetchPizzas, searchParams]);
+  }, [getPizzas, searchParams]);
 
   React.useEffect(() => {
     dispatch(setCurrentPage(0));
@@ -81,6 +71,9 @@ function Main() {
     .map((pizza) => {
       return <PizzaBlock key={pizza.id} {...pizza} />;
     });
+
+  const elements =
+    fetchStatus === 'loading' ? [...Array(4)].map((_, i) => <Skeleton key={i} />) : pizzas;
 
   return (
     <main>
@@ -95,7 +88,14 @@ function Main() {
           </p>
         </div>
         <div className="pizzas">
-          {isLoading ? [...Array(4)].map((_, i) => <Skeleton key={i} />) : pizzas}
+          {fetchStatus === 'error' ? (
+            <div className="error">
+              <p class="title">Something went wrong... 😕</p>
+              <p class="desc">Failed to load pizzas. Please try again later</p>
+            </div>
+          ) : (
+            elements
+          )}
         </div>
       </section>
       <Pagination count={count} limit={limit}></Pagination>

@@ -7,8 +7,6 @@ import Home from './components/pages/Home';
 
 import './scss/home.scss';
 
-export const SearchContext = React.createContext();
-
 function App() {
   return (
     <div className="wrapper">
