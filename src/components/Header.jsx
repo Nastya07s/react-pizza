@@ -3,12 +3,13 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import Search from './Search';
+import { cartSelector } from '../redux/slices/cartSlice';
 
 import cart from './../assets/img/cart.svg';
 import logo from './../assets/img/logo.svg';
 
 function Header() {
-  const { items, totalPrice } = useSelector((state) => state.cart);
+  const { items, totalPrice } = useSelector(cartSelector);
   return (
     <header>
       <Link to="/" className="logo">

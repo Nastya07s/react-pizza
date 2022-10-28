@@ -1,8 +1,9 @@
 import React from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
+import { constantsSelector } from '../../redux/slices/constantsSlice';
 
-import { addItem } from './../../redux/slices/cartSlice';
+import { addItem, cartSelector } from './../../redux/slices/cartSlice';
 
 function PizzaBlock(pizzaItem) {
   const dispatch = useDispatch();
@@ -12,8 +13,8 @@ function PizzaBlock(pizzaItem) {
   const [activeType, setActiveType] = React.useState(0);
   const [activeSizeIndex, setActiveSizeIndex] = React.useState(0);
 
-  const { items } = useSelector((state) => state.cart);
-  const { typeNames } = useSelector((state) => state.constants);
+  const { items } = useSelector(cartSelector);
+  const { typeNames } = useSelector(constantsSelector);
 
   const count =
     items.find(

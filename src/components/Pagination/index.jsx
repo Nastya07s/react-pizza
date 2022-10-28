@@ -11,7 +11,6 @@ const Pagination = ({ count, limit }) => {
   const dispatch = useDispatch();
 
   const handlePageClick = (event) => {
-    console.log('Click');
     dispatch(setCurrentPage(event.selected));
   };
 

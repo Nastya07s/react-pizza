@@ -26,6 +26,7 @@ function Main() {
   const getPizzas = React.useCallback(async () => {
     const preparedSearchParams =
       searchParams.toString().replace(/(&category=0)|(&title=$)/g, '') || DEFULT_SEARCH_PARAMS;
+
     dispatch(fetchPizzas(preparedSearchParams));
   }, [dispatch, searchParams, DEFULT_SEARCH_PARAMS]);
 

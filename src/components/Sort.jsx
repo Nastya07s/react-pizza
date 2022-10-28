@@ -1,23 +1,18 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { constantsSelector } from '../redux/slices/constantsSlice';
 import { setSort } from '../redux/slices/filterSlice';
 
 import arrow from './../assets/img/arrow.svg';
 
-const sortObjects = [
-  { name: 'polular first', field: 'rating', order: 'desc' },
-  { name: 'polular last', field: 'rating', order: 'asc' },
-  { name: 'price ascending', field: 'price', order: 'asc' },
-  { name: 'price descending', field: 'price', order: 'desc' },
-  { name: 'alfabet', field: 'title', order: 'asc' },
-];
-
 function Sort() {
+  const dispatch = useDispatch();
+
   const [isVisible, setIsVisability] = React.useState(false);
   const sortRef = React.useRef();
 
+  const { sortObjects } = useSelector(constantsSelector);
   const sort = useSelector((state) => state.filter.sort);
-  const dispatch = useDispatch();
 
   const findSortName = (currentSort) => sortObjects.find((obj) => obj.field === currentSort.field);
 

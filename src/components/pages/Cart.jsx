@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { removeAll } from '../../redux/slices/cartSlice';
+import { cartSelector, removeAll } from '../../redux/slices/cartSlice';
 
 import Product from '../Product';
 import CartEmpty from '../CartEmpty';
@@ -10,7 +10,7 @@ import './../../scss/cart.scss';
 
 function Cart({ imageUrl, title, dough, size, price }) {
   const dispatch = useDispatch();
-  const { items, totalPrice } = useSelector((state) => state.cart);
+  const { items, totalPrice } = useSelector(cartSelector);
 
   if (items.length === 0) {
     return (
