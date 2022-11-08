@@ -1,24 +1,26 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { constantsSelector } from '../redux/slices/constantsSlice';
+import { constantsSelector, SortObject } from '../redux/slices/constantsSlice';
 import { setSort } from '../redux/slices/filterSlice';
+import { RootState } from '../redux/store';
 
 import arrow from './../assets/img/arrow.svg';
 
-function Sort() {
+const Sort: React.FC = () => {
   const dispatch = useDispatch();
 
   const [isVisible, setIsVisability] = React.useState(false);
-  const sortRef = React.useRef();
+  const sortRef = React.useRef<HTMLDivElement>(null);
 
   const { sortObjects } = useSelector(constantsSelector);
-  const sort = useSelector((state) => state.filter.sort);
+  const sort = useSelector((state: RootState) => state.filter.sort);
 
-  const findSortName = (currentSort) => sortObjects.find((obj) => obj.field === currentSort.field);
+  const findSortName = (currentSort: SortObject) =>
+    sortObjects.find((obj) => obj.field === currentSort.field);
 
   React.useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (!event.path.includes(sortRef.current)) {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (!event.composedPath().includes(sortRef.current as Node)) {
         setIsVisability(false);
       }
     };
@@ -33,7 +35,8 @@ function Sort() {
       <img src={arrow} alt="Arrow up" className={isVisible ? '' : 'rotate'} />
       <div className="text">
         <p>
-          Sort by <span onClick={() => setIsVisability(!isVisible)}>{findSortName(sort).name}</span>
+          Sort by{' '}
+          <span onClick={() => setIsVisability(!isVisible)}>{findSortName(sort)?.name}</span>
         </p>
         {isVisible && (
           <div className="filters">
@@ -49,6 +52,6 @@ function Sort() {
       </div>
     </div>
   );
-}
+};
 
 export default Sort;

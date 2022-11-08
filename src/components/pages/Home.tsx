@@ -1,6 +1,10 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
+
+import { RootState, useAppDispatch } from '../../redux/store';
+import { SearchParams, setCurrentPage, setFilters } from '../../redux/slices/filterSlice';
+import { fetchPizzas, Status } from '../../redux/slices/pizzaSlice';
 
 import Categories from '../Categories';
 import Pagination from '../Pagination';
@@ -8,18 +12,15 @@ import PizzaBlock from '../PizzaBlock';
 import Skeleton from '../PizzaBlock/Skeleton';
 import Sort from '../Sort';
 
-import { setCurrentPage, setFilters } from './../../redux/slices/filterSlice';
-import { fetchPizzas } from './../../redux/slices/pizzaSlice';
-
-function Main() {
+const Main: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const isMounted = React.useRef(false);
 
-  const { items, count, fetchStatus } = useSelector((state) => state.pizza);
+  const { items, count, fetchStatus } = useSelector((state: RootState) => state.pizza);
   const { activeCategoryId, sort, searchValue, currentPage, limit } = useSelector(
-    (state) => state.filter,
+    (state: RootState) => state.filter,
   );
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const DEFULT_SEARCH_PARAMS = `limit=${limit}&page=${currentPage}`;
 
@@ -32,12 +33,12 @@ function Main() {
 
   React.useEffect(() => {
     if (isMounted.current) {
-      const params = {
-        limit,
-        page: currentPage,
-        category: activeCategoryId,
+      const params: Record<string, string> = {
+        limit: String(limit),
+        page: String(currentPage),
+        category: String(activeCategoryId),
         sortBy: sort.field,
-        order: sort.order,
+        order: String(sort.order),
         title: searchValue || '',
       };
 
@@ -49,7 +50,9 @@ function Main() {
 
   React.useEffect(() => {
     if (searchParams.has('sortBy')) {
-      const objectSearchParams = Object.fromEntries([...searchParams]);
+      const objectSearchParams: SearchParams = Object.fromEntries([
+        ...searchParams,
+      ]) as unknown as SearchParams;
 
       objectSearchParams.title = objectSearchParams.title || '';
 
@@ -89,10 +92,10 @@ function Main() {
           </p>
         </div>
         <div className="pizzas">
-          {fetchStatus === 'error' ? (
+          {fetchStatus === Status.ERROR ? (
             <div className="error">
-              <p class="title">Something went wrong... 😕</p>
-              <p class="desc">Failed to load pizzas. Please try again later</p>
+              <p className="title">Something went wrong... 😕</p>
+              <p className="desc">Failed to load pizzas. Please try again later</p>
             </div>
           ) : (
             elements
@@ -102,6 +105,6 @@ function Main() {
       <Pagination count={count} limit={limit}></Pagination>
     </main>
   );
-}
+};
 
 export default Main;

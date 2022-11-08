@@ -3,9 +3,18 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { constantsSelector } from '../../redux/slices/constantsSlice';
 
-import { addItem, cartSelector } from './../../redux/slices/cartSlice';
+import { addItem, cartSelector } from '../../redux/slices/cartSlice';
 
-function PizzaBlock(pizzaItem) {
+type PizzaBlockProps = {
+  id: number;
+  title: string;
+  price: number;
+  imageUrl: string;
+  types: number[];
+  sizes: number[];
+};
+
+const PizzaBlock: React.FC<PizzaBlockProps> = (pizzaItem) => {
   const dispatch = useDispatch();
 
   const { id, title, price, imageUrl, types, sizes } = pizzaItem;
@@ -69,6 +78,6 @@ function PizzaBlock(pizzaItem) {
       </div>
     </div>
   );
-}
+};
 
 export default PizzaBlock;

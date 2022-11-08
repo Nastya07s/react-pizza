@@ -1,10 +1,10 @@
 import React from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { increaseCount, removeItem, decreaseCount } from '../redux/slices/cartSlice';
+import { increaseCount, removeItem, decreaseCount, CartItemRedux } from '../redux/slices/cartSlice';
 import { constantsSelector } from '../redux/slices/constantsSlice';
 
-const Product = (product) => {
+const Product: React.FC<CartItemRedux> = (product) => {
   const dispatch = useDispatch();
   const { imageUrl, title, price, size: sizeIndex, sizes, type, count } = product;
 

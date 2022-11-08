@@ -7,7 +7,7 @@ import Home from './components/pages/Home';
 
 import './scss/home.scss';
 
-function App() {
+const App: React.FC = () => {
   return (
     <div className="wrapper">
       <Header />
@@ -17,6 +17,6 @@ function App() {
       </Routes>
     </div>
   );
-}
+};
 
 export default App;

@@ -8,7 +8,7 @@ import CartEmpty from '../CartEmpty';
 
 import './../../scss/cart.scss';
 
-function Cart({ imageUrl, title, dough, size, price }) {
+const Cart: React.FC = () => {
   const dispatch = useDispatch();
   const { items, totalPrice } = useSelector(cartSelector);
 
@@ -91,7 +91,7 @@ function Cart({ imageUrl, title, dough, size, price }) {
       ))}
       <div className="row total">
         <p className="amount">
-          Total pizzas: <span>{items.reduce((acc, item) => acc + item.count, 0)} pcs.</span>
+          Total pizzas: <span>{items.reduce((acc: number, item) => acc + item.count, 0)} pcs.</span>
         </p>
         <p className="total-price">
           Order price: <span>${totalPrice.toFixed(2)}</span>
@@ -120,6 +120,6 @@ function Cart({ imageUrl, title, dough, size, price }) {
       </div>
     </main>
   );
-}
+};
 
 export default Cart;
