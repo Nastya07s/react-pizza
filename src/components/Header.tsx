@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { CartItemRedux } from '../redux/cart/types';
 import { cartSelector } from '../redux/cart/selectors';
@@ -9,9 +9,27 @@ import Search from './Search';
 
 import cart from './../assets/img/cart.svg';
 import logo from './../assets/img/logo.svg';
+import { addAllItems } from '../redux/cart/slice';
 
 const Header: React.FC = () => {
+  const dispatch = useDispatch();
   const { items, totalPrice } = useSelector(cartSelector);
+  const isMounted = useRef(false);
+
+  React.useEffect(() => {
+    if (isMounted.current) {
+      const json = JSON.stringify(items);
+
+      localStorage.setItem('items', json);
+    } else {
+      const json = localStorage.getItem('items');
+      const data: CartItemRedux[] = json ? JSON.parse(json) : [];
+
+      dispatch(addAllItems(data));
+    }
+
+    isMounted.current = true;
+  }, [dispatch, items]);
 
   return (
     <header>
