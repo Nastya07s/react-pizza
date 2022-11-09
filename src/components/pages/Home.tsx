@@ -3,14 +3,17 @@ import { useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 
 import { RootState, useAppDispatch } from '../../redux/store';
-import { SearchParams, setCurrentPage, setFilters } from '../../redux/slices/filterSlice';
-import { fetchPizzas, Status } from '../../redux/slices/pizzaSlice';
+import { setCurrentPage, setFilters } from '../../redux/filter/slice';
+import { SearchParams } from '../../redux/filter/types';
+import { fetchPizzas } from '../../redux/pizza/asyncActions';
+import { Status } from '../../redux/pizza/types';
 
 import Categories from '../Categories';
 import Pagination from '../Pagination';
 import PizzaBlock from '../PizzaBlock';
 import Skeleton from '../PizzaBlock/Skeleton';
 import Sort from '../Sort';
+import NotFound from '../NotFound';
 
 const Main: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -92,14 +95,7 @@ const Main: React.FC = () => {
           </p>
         </div>
         <div className="pizzas">
-          {fetchStatus === Status.ERROR ? (
-            <div className="error">
-              <p className="title">Something went wrong... 😕</p>
-              <p className="desc">Failed to load pizzas. Please try again later</p>
-            </div>
-          ) : (
-            elements
-          )}
+          {fetchStatus === Status.ERROR ? <NotFound></NotFound> : elements}
         </div>
       </section>
       <Pagination count={count} limit={limit}></Pagination>

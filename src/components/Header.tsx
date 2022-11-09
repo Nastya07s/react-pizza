@@ -2,8 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
+import { CartItemRedux } from '../redux/cart/types';
+import { cartSelector } from '../redux/cart/selectors';
+
 import Search from './Search';
-import { CartItemRedux, cartSelector } from '../redux/slices/cartSlice';
 
 import cart from './../assets/img/cart.svg';
 import logo from './../assets/img/logo.svg';

@@ -1,8 +1,8 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../redux/store';
 
-import { setActiveCategoryId } from '../redux/slices/filterSlice';
+import { RootState } from '../redux/store';
+import { setActiveCategoryId } from '../redux/filter/slice';
 
 const categories = ['All', 'Meat', 'Vega', 'Grill', 'Spicy', 'Closed'];
 

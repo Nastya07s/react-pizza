@@ -1,22 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Field, Order, SortObject } from './constantsSlice';
-
-export type SearchParams = {
-  category: number;
-  sortBy: Field;
-  order: Order;
-  title: string;
-  page: number;
-  limit: number;
-};
-
-interface FilterSliceState {
-  activeCategoryId: number;
-  sort: SortObject;
-  searchValue: string;
-  currentPage: number;
-  limit: number;
-}
+import { Field, Order, SortObject } from '../constants/types';
+import { FilterSliceState, SearchParams } from './types';
 
 const initialState: FilterSliceState = {
   activeCategoryId: 0,

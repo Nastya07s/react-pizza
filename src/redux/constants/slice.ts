@@ -1,35 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { RootState } from '../store';
-
-export enum Order {
-  DESC = 'desc',
-  ASC = 'asc',
-}
-
-export enum Field {
-  RATING = 'rating',
-  PRICE = 'price',
-  TITLE = 'title',
-}
-
-enum SortName {
-  RATING_DESC = 'polular first',
-  RATING_ASC = 'polular last',
-  PRICE_ASC = 'price ascending',
-  PRICE_DESC = 'price descending',
-  TITLE_ASC = 'alfabet',
-}
-
-export enum DoughType {
-  THIN = 'Thin',
-  TRADITIONAL = 'Traditional',
-}
-
-export type SortObject = {
-  name?: SortName;
-  field: Field;
-  order: Order;
-};
+import { DoughType, Field, Order, SortName, SortObject } from './types';
 
 interface constantsSliceState {
   typeNames: DoughType[];
@@ -52,7 +22,5 @@ export const constantsSlice = createSlice({
   initialState,
   reducers: {},
 });
-
-export const constantsSelector = (state: RootState) => state.constants;
 
 export default constantsSlice.reducer;

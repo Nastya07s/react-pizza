@@ -1,9 +1,10 @@
 import React from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { constantsSelector } from '../../redux/slices/constantsSlice';
 
-import { addItem, cartSelector } from '../../redux/slices/cartSlice';
+import { cartSelector } from '../../redux/cart/selectors';
+import { constantsSelector } from '../../redux/constants/selectors';
+import { addItem } from '../../redux/cart/slice';
 
 type PizzaBlockProps = {
   id: number;

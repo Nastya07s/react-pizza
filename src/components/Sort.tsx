@@ -1,7 +1,9 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { constantsSelector, SortObject } from '../redux/slices/constantsSlice';
-import { setSort } from '../redux/slices/filterSlice';
+
+import { constantsSelector } from '../redux/constants/selectors';
+import { SortObject } from '../redux/constants/types';
+import { setSort } from '../redux/filter/slice';
 import { RootState } from '../redux/store';
 
 import arrow from './../assets/img/arrow.svg';
