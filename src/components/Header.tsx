@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { CartItemRedux } from '../redux/cart/types';
@@ -13,6 +13,7 @@ import { addAllItems } from '../redux/cart/slice';
 
 const Header: React.FC = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
   const { items, totalPrice } = useSelector(cartSelector);
   const isMounted = useRef(false);
 
@@ -40,7 +41,7 @@ const Header: React.FC = () => {
           <span className="desc">The best pizza in the Universe</span>
         </div>
       </Link>
-      <Search></Search>
+      {!location.pathname.includes('/cart') ? <Search></Search> : null}
       <Link to="cart" className="cart">
         <div className="amount">{totalPrice.toFixed(1)}$</div>
         <div className="count">
